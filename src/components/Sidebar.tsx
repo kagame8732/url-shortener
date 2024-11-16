@@ -26,7 +26,7 @@ const Sidebar = () => {
     <div className='bg-[#dcdcdc] fixed w-1/5 '>
         <div className='flex flex-col w-full items-start h-screen'>
             <div className='flex flex-col h-full py-[30px] px-[20px] w-full'>
-                <div className='w-full flex justify-start items-center px-[10px] mb-10'>
+                <div className='w-full flex justify-center items-center px-[10px] mb-10 '>
                     <img
                         src={`https://www.abat.asia/typo3conf/ext/abat/Resources/Public/Abat/Logos/abat-logo.svg`}
                         alt='logo'

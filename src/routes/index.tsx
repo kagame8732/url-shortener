@@ -32,15 +32,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Navigate to="/admin-overview" />,
-      },
-      {
-        path: '/admin-overview',
-        element: <AdminOverView />,
+        element: <Navigate to="/user-input-mask" />,
       },
       {
         path: '/user-input-mask',
         element: <UserInputMask />,
+      },
+      {
+        path: '/admin-overview',
+        element: <AdminOverView />,
       },
     ]
   }
