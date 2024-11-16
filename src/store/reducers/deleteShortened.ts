@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { apis } from "../apis";
 
@@ -8,7 +9,7 @@ const deleteShortenedSlice = createSlice({
     error: false,
     success: false,
     message: "",
-    data: {} as any,
+    data: "" as string,
   },
   reducers: {},
   extraReducers(builder) {

@@ -1,6 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {apis} from "../apis";
 
+type payloadData ={
+  createdDate: string;
+  id: string;
+  modifiedDate: string;
+  ttlInSeconds: number;
+  url: string
+}
+      
 const newShortenURLSlice = createSlice({
   name: "newShortenURL",
   initialState: {
@@ -8,7 +16,7 @@ const newShortenURLSlice = createSlice({
     error: false,
     success: false,
     message: "",
-    data: {} as any,
+    data: {} as payloadData,
   },
   reducers: {},
   extraReducers(builder) {
@@ -17,10 +25,10 @@ const newShortenURLSlice = createSlice({
     });
     builder.addCase(
       apis.newShortenURL.fulfilled,
-      (state, action: PayloadAction<any>) => {
+      (state, action: PayloadAction<payloadData>) => {
         state.loading = false;
         state.success = true;
-        state.message = action?.payload?.message;
+        state.message = "saved successful";
         state.data = action?.payload;
         state.error = false;
       }

@@ -1,5 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {apis} from "../apis";
+
+type payloadData ={
+  createdDate: string;
+  id: string;
+  modifiedDate: string;
+  ttlInSeconds: number;
+  url: string
+}
 
 const getAllURLSSlice = createSlice({
   name: "getAllURLS",
@@ -8,7 +17,7 @@ const getAllURLSSlice = createSlice({
     error: false,
     success: false,
     message: "",
-    urls: [],
+    urls: [] as payloadData[],
   },
   reducers: {},
   extraReducers(builder) {
@@ -17,12 +26,10 @@ const getAllURLSSlice = createSlice({
     });
     builder.addCase(
       apis.getAllURLS.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        console.log('action.payload', JSON.stringify(action.payload, null, 2))
+      (state, action: PayloadAction<payloadData[]>) => {
         state.loading = false;
         state.success = true;
-        state.message = action?.payload?.message;
-        state.urls = action?.payload;
+        state.urls = action.payload;
         state.error = false;
       }
     );

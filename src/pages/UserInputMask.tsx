@@ -9,6 +9,7 @@ import { apis } from "../store/apis";
 import { UnknownAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { useTranslation } from "react-i18next";
+import { CircularProgress } from "@mui/material";
 
 const UserInputMask = () => {
   const { t } = useTranslation();
@@ -19,20 +20,15 @@ const UserInputMask = () => {
   const [error, setError] = useState<string>("");
   const [copied, setCopied] = useState<boolean>(false);
 
-  const { data, message } = useSelector(
+  const { data, loading } = useSelector(
     (state: RootState) => state.newShortenURL
   );
 
   const isValidUrl = (url: string) => {
     const urlPattern = new RegExp(
-      "^(https?:\\/\\/)?" +
-        "((([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,})|" +
-        "((\\d{1,3}\\.){3}\\d{1,3}))" +
-        "(\\:\\d+)?(\\/[-a-zA-Z0-9@:%._\\+~#=]*)*" +
-        "(\\?[;&a-zA-Z0-9@:%_\\+.~#?&//=]*)?" +
-        "(\\#[-a-zA-Z0-9_]*)?$",
-      "i"
+      /^(https?:\/\/)?((([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,})|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-zA-Z0-9@:%._+~#=]*)*(\?[;&a-zA-Z0-9@:%_+.~#?&//=]*)?(#[\w-]*)?$/,"i"
     );
+    
     return urlPattern.test(url);
   };
 
@@ -51,7 +47,6 @@ const UserInputMask = () => {
   };
 
   const handleGoClick = () => {
-    // Ensure the URL starts with "https://"
     const formattedUrl = urlInput.startsWith("https://")
       ? urlInput
       : `https://${urlInput}`;
@@ -64,8 +59,6 @@ const UserInputMask = () => {
     }
   };
   
-
-  console.log("data", JSON.stringify(data, null, 2));
   useEffect(() => {
     if (data && data.id?.length > 0) {
       setOutputUrl(`${import.meta.env.VITE_BASE_URL}/${data["id"]}`);
@@ -107,8 +100,13 @@ const UserInputMask = () => {
             className="w-[200px]"
             onClick={handleGoClick}
             disabled={!urlInput}
-          >
-            {t(`Go`)}
+          >{loading ? (
+            <CircularProgress color="inherit" size="25px" />
+          ) : (
+            <>
+              {t(`Go`)}
+            </>
+          )}
           </Button>
         </Stack>
       </div>

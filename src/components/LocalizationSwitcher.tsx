@@ -12,7 +12,7 @@ const LocalizationSwitcher = () => {
     ];
 
     const defaultFlag = {
-        name: 'En',
+        name: 'En', 
         code: 'en',
         flag: EngLog,
     };
