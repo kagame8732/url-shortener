@@ -4,17 +4,15 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import TextField from "@mui/material/TextField";
-import { useError } from "../context/ErrorContext";
 import { useDispatch, useSelector } from "react-redux";
 import { apis } from "../store/apis";
 import { UnknownAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const UserInputMask = () => {
-  const { addError } = useError();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [urlInput, setUrlInput] = useState<string>("");
   const [outputUrl, setOutputUrl] = useState<string>("");
@@ -39,7 +37,6 @@ const UserInputMask = () => {
   };
 
   const copyToClipboard = () => {
-    // const text = "Text to be copied";
     navigator.clipboard
       .writeText(outputUrl)
       .then(() => {
@@ -47,7 +44,6 @@ const UserInputMask = () => {
         setTimeout(() => {
           setCopied(false);
         }, 5000);
-        // alert('Text copied to clipboard!');
       })
       .catch((err) => {
         console.error("Failed to copy text: ", err);
@@ -55,15 +51,19 @@ const UserInputMask = () => {
   };
 
   const handleGoClick = () => {
-    if (isValidUrl(urlInput)) {
+    // Ensure the URL starts with "https://"
+    const formattedUrl = urlInput.startsWith("https://")
+      ? urlInput
+      : `https://${urlInput}`;
+  
+    if (isValidUrl(formattedUrl)) {
       setError("");
-      // setOutputUrl(urlInput);
-      dispatch(apis.newShortenURL(urlInput) as unknown as UnknownAction);
+      dispatch(apis.newShortenURL(formattedUrl) as unknown as UnknownAction);
     } else {
       setError("Please enter a valid URL");
-      // addError('Please enter a valid URL');
     }
   };
+  
 
   console.log("data", JSON.stringify(data, null, 2));
   useEffect(() => {
@@ -88,7 +88,7 @@ const UserInputMask = () => {
             error={!!error}
             helperText={error}
             id="outlined-basic"
-            label="Input URL"
+            label={t("Input URL")}
             variant="outlined"
             value={urlInput}
             onChange={(e) => {
@@ -102,13 +102,13 @@ const UserInputMask = () => {
 
         <Stack spacing={2} direction="row" sx={{ marginTop: 2 }}>
           <Button
-            variant="outlined"
+            variant="contained"
             color="primary"
             className="w-[200px]"
             onClick={handleGoClick}
             disabled={!urlInput}
           >
-            Go
+            {t(`Go`)}
           </Button>
         </Stack>
       </div>
@@ -126,7 +126,7 @@ const UserInputMask = () => {
           >
             <TextField
               id="outlined-basic"
-              label="output"
+              label={t("Output")}
               variant="outlined"
               disabled
               value={outputUrl}
@@ -142,21 +142,21 @@ const UserInputMask = () => {
           >
             <Button
               className="w-[200px]"
-              variant="outlined"
+              variant="contained"
               style={{ marginRight: "10px", borderRadius: "5px" }}
               onClick={() => {
                 window.open(outputUrl, "_blank");
               }}
             >
-              Test
+              {t(`Test`)}
             </Button>
             <Button
               className="w-[200px]"
-              variant="outlined"
+              variant="contained"
               style={{ borderRadius: "5px" }}
               onClick={copyToClipboard}
             >
-              {copied ? "Url copied" : "Copy"}
+              {t(copied ? "Url copied" : "Copy")}
             </Button>
           </ButtonGroup>
         </div>
