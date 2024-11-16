@@ -18,8 +18,9 @@ const getAllURLS = createAsyncThunk(
     try {
       const response = await axios.get(`/urls`);
       return response.data;
-    } catch (error: any) {
-      return rejectWithValue({ error: error?.response });
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      return rejectWithValue({ error: axiosError?.response });
     }
   }
 );
@@ -33,8 +34,9 @@ const newShortenURL = createAsyncThunk(
         ttlInSeconds: 5000,
       });
       return response.data;
-    } catch (error: AxiosError | any) {
-      return rejectWithValue({ error: error?.response });
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      return rejectWithValue({ error: axiosError?.response });
     }
   }
 );
@@ -45,12 +47,56 @@ const deleteShortened = createAsyncThunk(
     try {
       const response = await axios.delete(`/urls/${id}`);
       return response.data;
-    } catch (error: AxiosError | any) {
-      return rejectWithValue({ error: error?.response });
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      return rejectWithValue({ error: axiosError?.response });
     }
   }
 );
 
-const reset = createAction('reset')
+const editShortened = createAsyncThunk(
+  "editShortened",
+  async (data: {id: string, url: string, ttlInSeconds: string}, { rejectWithValue }) => {
+    try {
+      const { id, url, ttlInSeconds } = data;
 
-export const apis = { getAllURLS, newShortenURL, deleteShortened, reset };
+      const response = await axios.put(`/urls/${id}`, {
+        url,
+        ttlInSeconds
+      });
+      return response.data;
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      return rejectWithValue({ error: axiosError?.response });
+    }
+  }
+);
+
+const addShortenerUrl = createAsyncThunk(
+  "addShortenerUrl",
+  async (data: {id: string, url: string, ttlInSeconds: string}, { rejectWithValue }) => {
+    try {
+      const { id, url, ttlInSeconds } = data;
+
+      const response = await axios.post(`/urls/${id}`, {
+        url,
+        ttlInSeconds
+      });
+      return response.data;
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      return rejectWithValue({ error: axiosError?.response });
+    }
+  }
+);
+
+const switchSides = createAsyncThunk(
+  "switchSides",
+  async (state: boolean) => {
+    return state;
+  }
+);
+
+const reset = createAction('reset');
+
+export const apis = { getAllURLS, newShortenURL, deleteShortened, editShortened, addShortenerUrl, switchSides, reset };

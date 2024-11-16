@@ -1,40 +1,40 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {apis} from "../apis";
 
-const newShortenURLSlice = createSlice({
-  name: "newShortenURL",
+const editURLSlice = createSlice({
+  name: "editShortened",
   initialState: {
     loading: false,
     error: false,
     success: false,
-    message: "",
+    successMessage: "",
     data: {} as any,
   },
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(apis.newShortenURL.pending, (state) => {
+    builder.addCase(apis.editShortened.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(
-      apis.newShortenURL.fulfilled,
+      apis.editShortened.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.success = true;
-        state.message = action?.payload?.message;
+        state.successMessage = "Edited Successfully";
         state.data = action?.payload;
         state.error = false;
       }
     );
     builder.addCase(
-      apis.newShortenURL.rejected,
+      apis.editShortened.rejected,
       (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = true;
-        state.message = action?.payload?.error?.message;
+        state.successMessage = action?.payload?.error?.message;
         state.success = false;
       }
     );
   },
 });
 
-export default newShortenURLSlice.reducer;
+export default editURLSlice.reducer;
