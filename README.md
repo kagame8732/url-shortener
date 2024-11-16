@@ -11,10 +11,10 @@
 Follow these steps to get started: 
 
 1. **Clone the Repository**
-   - Execute `git clone [repository-url]` to clone the repository to your local machine.
+   - Execute `git clone https://github.com/kagame8732/url-shortener` to clone the repository to your local machine.
 
 2. **Navigate to the direcctory**
-   - Run `cd [repository-url]` to install the required dependencies.
+   - Run `cd https://github.com/kagame8732/url-shortener` to install the required dependencies.
 
 3. **Install Dependencies**
    - Run `npm install` to install the required dependencies.
