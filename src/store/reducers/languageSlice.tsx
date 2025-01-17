@@ -11,6 +11,7 @@ const languageSlice = createSlice({
     },
   },
   reducers: {
+    //Helps to keep selected languages even if page refleshed
     setLanguage: (state, action) => {
       state.lang = action.payload;
       localStorage.setItem('currentLng', JSON.stringify(action.payload));

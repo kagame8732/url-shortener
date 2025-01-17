@@ -14,7 +14,6 @@ export const store = configureStore({
         editShortened,
         addShortenerUrl,
         switchSides
-
     }
 })
 

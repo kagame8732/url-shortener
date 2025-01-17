@@ -7,6 +7,7 @@ const switchSiidesSlice = createSlice({
     sideBarHidden: false
   },
   reducers: {},
+  // Help to access the state entire the application
   extraReducers(builder) {
     builder.addCase(
       apis.switchSides.fulfilled,

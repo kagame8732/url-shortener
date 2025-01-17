@@ -12,14 +12,16 @@ import { useTranslation } from "react-i18next";
 import { CircularProgress } from "@mui/material";
 
 const UserInputMask = () => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const { t } = useTranslation(); // Translation function
+  const dispatch = useDispatch(); // Redux dispatch function
 
+   // State hooks for managing input, output, errors, and copy status
   const [urlInput, setUrlInput] = useState<string>("");
   const [outputUrl, setOutputUrl] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [copied, setCopied] = useState<boolean>(false);
 
+   // Access the relevant state from the Redux store
   const { data, loading } = useSelector(
     (state: RootState) => state.newShortenURL
   );
@@ -32,6 +34,7 @@ const UserInputMask = () => {
     return urlPattern.test(url);
   };
 
+// Function to copy the output URL to the clipboard
   const copyToClipboard = () => {
     navigator.clipboard
       .writeText(outputUrl)
@@ -63,7 +66,7 @@ const UserInputMask = () => {
     if (data && data.id?.length > 0) {
       setOutputUrl(`${import.meta.env.VITE_BASE_URL}/${data["id"]}`);
     }
-  }, [data]);
+  }, [data]); 
 
   return (
     <div className="w-full h-[88%] flex flex-col gap-6 justify-start items-center">

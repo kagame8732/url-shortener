@@ -1,7 +1,8 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance, { AxiosError } from "axios";
 
-const axios = axiosInstance.create({
+// Popular and modern way of invoking the apis 
+const axios = axiosInstance.create({ 
   baseURL: import.meta.env.VITE_BASE_URL,
   auth: {
     username: import.meta.env.VITE_USER,

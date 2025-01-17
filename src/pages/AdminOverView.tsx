@@ -28,6 +28,7 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { useTranslation } from "react-i18next";
 
+// Define the data type for URL data
 type UrlDataType = {
   id: string,
   url: string,
@@ -35,7 +36,7 @@ type UrlDataType = {
   createdDate: string,
   modifiedDate: string,
 }
-
+// Column definitions for the table
 const columns: readonly Column[] = [
   { id: "id", label: "ID", minWidth: 10, align: "center" },
   { id: "url", label: "URL", minWidth: 100, align: "left" },
@@ -46,7 +47,7 @@ const columns: readonly Column[] = [
 ];
 
 const AdminOverView = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(); // Translation hook for i18n support
   const dispatch = useDispatch();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -59,6 +60,7 @@ const AdminOverView = () => {
     ttlInSeconds: ''
   })
 
+  // Selecting data from the Redux store
   const { urls } = useSelector((state: RootState) => state.getAllURLS);
   const { message } = useSelector((state: RootState) => state.deleteShortened);
   const { successMessage } = useSelector((state: RootState) => state.editShortened);
@@ -85,20 +87,19 @@ const AdminOverView = () => {
     if (!isValidUrl(formattedUrl)) {
       setUrlError("Please enter a valid URL");
       return;
-    }
-  
+    } 
     const updatedUrlData = { ...urlData, url: formattedUrl };
   
-    if (dialogMode === "edit") {
+    if (dialogMode === "edit") { 
       dispatch(apis.editShortened(updatedUrlData) as unknown as UnknownAction);
-    } else if (dialogMode === "add") {
+    } else if (dialogMode === "add") { 
       dispatch(apis.addShortenerUrl(updatedUrlData) as unknown as UnknownAction);
     }
   
     setOpenDialog(false);
   };  
 
-
+ // Open the dialog for add or edit mode
   const handleOpenDialog = (mode: "add" | "edit", id?: string) => {
     setDialogMode(mode);
 
@@ -126,8 +127,8 @@ const AdminOverView = () => {
     setOpenDialog(false);
   };
 
-
-  const handleChangePage = (event: unknown, newPage: number) => {
+ // Handle pagination
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -142,6 +143,7 @@ const AdminOverView = () => {
     dispatch(apis.getAllURLS() as unknown as UnknownAction);
   }, [dispatch]);
 
+   // Show toast messages on success or error and refresh the URL list
   useEffect(() => {
     if (message || successMessage || savedSuccefulMessage) {
       dispatch(apis.reset());
@@ -154,8 +156,11 @@ const AdminOverView = () => {
 
   return (
     <div className="px-5 pt-10">
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+  {/*provide clean and modern design for the table */}
+      <Paper sx={{ width: "100%", overflow: "hidden" }}>  
+  {/* it is good for placing actions or controls */}
         <Toolbar>
+  {/* UI element for user interaction to trigger actions */}
           <Button
             variant="contained"
             color="primary"
@@ -165,9 +170,13 @@ const AdminOverView = () => {
             {t(`Add`)}
           </Button>
         </Toolbar>
+{/* Provides scrollable behavior for tables with many rows. */}
         <TableContainer sx={{ maxHeight: 440 }}>
+{/* Displays column headers. */}
           <Table stickyHeader aria-label="sticky table">
+{/* Holds the rows of data. */}
             <TableHead>
+{/* Represents rows in the table. */}
               <TableRow>
                 {columns.map((column) => (
                   <TableCell
@@ -237,6 +246,7 @@ const AdminOverView = () => {
             </TableBody>
           </Table>
         </TableContainer>
+{/* Manages navigation through large datasets by splitting them into smaller pages. */}
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"

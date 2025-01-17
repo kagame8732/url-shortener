@@ -10,11 +10,15 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function App() {
   return (
     <Provider store={store}>
-      <ErrorProvider>
+{/* For managing errors globally */}
+      <ErrorProvider> 
         <div className="">
+{/* For display catched error */}
           <ErrorDisplay />
+{/* Used for navigation in different pages */}
           <RouterProvider router={router} />
         </div>
+{/* Display the message */}
         <ToastContainer autoClose={5000} position="top-right" closeOnClick/>
       </ErrorProvider>
     </Provider>
